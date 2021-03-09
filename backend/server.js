@@ -1,31 +1,29 @@
 import express from 'express'
-import products from './data/products.js'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import colors from 'colors'
+import productRoutes from './routes/productRoutes.js'
+import {notFound, errorHandler} from './middleware/errorMiddleware.js'
 
 dotenv.config() // this imports the .env file
-connectDB()
+connectDB() // connects with the database
 
 const app = express()
 
-
+//ROUTES
 app.get('/', (req, res) =>{
     res.send('hi')
 })
 
-
-// GET ALL PRODUCTS
-app.get('/api/products', (req, res) =>{
-    res.json(products)
-})
+// products routes
+app.use('/api/products', productRoutes)
 
 
-// GET SINGLE PRODUCT
-app.get('/api/products/:id', (req, res) =>{
-    const product = products.find((p) => p._id === req.params.id)
-    res.json(product)
-})
+// MIDDLEWARES
+app.use(notFound)
+app.use(errorHandler)
+
+
 
 const PORT = process.env.PORT || 5000
 
