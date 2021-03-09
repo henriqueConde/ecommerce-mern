@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import colors from 'colors'
 
-dotenv.config()
+dotenv.config() // this imports the .env file
 connectDB()
 
 const app = express()
